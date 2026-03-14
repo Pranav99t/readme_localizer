@@ -24,98 +24,114 @@ export default function HistoryPage({ onNavigate }) {
   const codePreservedCount = translations.filter(t => t.code_blocks_preserved).length;
 
   return (
-    <div className="history-page">
+    <div className="history-v2">
       <div className="container">
-        <div className="history-header animate-fade-in">
-          <div>
-            <h1 className="history-title">Translation History</h1>
-            <p className="history-subtitle">
-              {translations.length} translations • {totalWords.toLocaleString()} words translated • {codePreservedCount}/{translations.length} code preserved
-            </p>
+        <header className="page-header-v2 animate-fade-in">
+          <div className="header-meta">
+            <h1 className="title-md">Deployment Logs</h1>
+            <p className="subtitle-xs">Audit trail of all synthesized localizations</p>
           </div>
-        </div>
+          
+          <div className="log-stats glass-panel">
+            <div className="l-stat">
+              <span className="l-val">{translations.length}</span>
+              <span className="l-lab">Deployments</span>
+            </div>
+            <div className="l-stat">
+              <span className="l-val">{totalWords.toLocaleString()}</span>
+              <span className="l-lab">Words</span>
+            </div>
+            <div className="l-stat">
+              <span className="l-val success">{codePreservedCount}</span>
+              <span className="l-lab">Integrity Checks</span>
+            </div>
+          </div>
+        </header>
 
-        {/* Filter Bar */}
-        <div className="history-filters animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        {/* Filter Navigation */}
+        <nav className="filter-nav-v2 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <button
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+            className={`nav-item-v2 ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
           >
-            All ({translations.length})
+            All Logs
           </button>
+          <div className="nav-divider"></div>
           {Object.entries(langCounts).map(([lang, count]) => {
             const info = SUPPORTED_LANGUAGES.find(l => l.code === lang);
             return (
               <button
                 key={lang}
-                className={`filter-btn ${filter === lang ? 'active' : ''}`}
+                className={`nav-item-v2 ${filter === lang ? 'active' : ''}`}
                 onClick={() => setFilter(lang)}
               >
-                {info?.flag} {info?.name || lang} ({count})
+                <span className="nav-flag">{info?.flag}</span>
+                <span className="nav-label">{info?.name || lang}</span>
+                <span className="nav-count">{count}</span>
               </button>
             );
           })}
-        </div>
+        </nav>
 
-        {/* Translation List */}
+        {/* Log Table */}
         {filteredTranslations.length === 0 ? (
-          <div className="history-empty glass-panel animate-fade-in">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--text-muted)" strokeWidth="1.5">
-              <circle cx="24" cy="24" r="18" />
-              <path d="M24 16v8l5 3" strokeLinecap="round" />
-            </svg>
-            <h3>No Translation History</h3>
-            <p>Your translations will appear here after you localize a README.</p>
+          <div className="empty-logs glass-panel animate-fade-in">
+            <div className="empty-icon-v2">📋</div>
+            <h3>No deployments detected</h3>
+            <p>Ready to initialize your first localization?</p>
             <button className="btn btn-primary" onClick={() => onNavigate('landing')}>
-              Start Translating
+              Initialize
             </button>
           </div>
         ) : (
-          <div className="history-list animate-fade-in" style={{ animationDelay: '0.15s' }}>
-            <div className="history-table-header">
-              <span className="ht-col ht-repo">Repository</span>
-              <span className="ht-col ht-file">File</span>
-              <span className="ht-col ht-lang">Language</span>
-              <span className="ht-col ht-words">Words</span>
-              <span className="ht-col ht-code">Code</span>
-              <span className="ht-col ht-time">Time</span>
+          <div className="log-table-v2 animate-fade-in" style={{ animationDelay: '0.15s' }}>
+            <div className="table-row-v2 header">
+              <div className="table-col-v2 t-repo">Source</div>
+              <div className="table-col-v2 t-file">Path</div>
+              <div className="table-col-v2 t-lang">Matrix</div>
+              <div className="table-col-v2 t-volume">Volume</div>
+              <div className="table-col-v2 t-status">Status</div>
+              <div className="table-col-v2 t-time">Timestamp</div>
             </div>
-            {filteredTranslations.map((t, i) => {
-              const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === t.target_lang);
-              return (
-                <div key={i} className="history-row glass-panel" style={{ animationDelay: `${i * 0.03}s` }}>
-                  <span className="ht-col ht-repo">
-                    <span className="ht-repo-name">{t.repo || 'Unknown'}</span>
-                  </span>
-                  <span className="ht-col ht-file">
-                    <code className="ht-filename">{t.file || 'README.md'}</code>
-                  </span>
-                  <span className="ht-col ht-lang">
-                    <span className="ht-lang-badge">
-                      <span>{langInfo?.flag}</span>
-                      <span>{langInfo?.name || t.target_lang}</span>
-                    </span>
-                  </span>
-                  <span className="ht-col ht-words">
-                    <span className="ht-word-count">{t.original_words || 0}</span>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="var(--text-muted)" strokeWidth="1.5">
-                      <path d="M4 6h4M6 4l2 2-2 2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="ht-word-count">{t.translated_words || 0}</span>
-                  </span>
-                  <span className="ht-col ht-code">
-                    {t.code_blocks_preserved ? (
-                      <span className="badge badge-success">Preserved</span>
-                    ) : (
-                      <span className="badge badge-warning">Modified</span>
-                    )}
-                  </span>
-                  <span className="ht-col ht-time">
-                    {formatDate(t.created_at)}
-                  </span>
-                </div>
-              );
-            })}
+            
+            <div className="table-body-v2">
+              {filteredTranslations.map((t, i) => {
+                const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === t.target_lang);
+                return (
+                  <div key={i} className="table-row-v2 glass-panel" style={{ animationDelay: `${i * 0.05}s` }}>
+                    <div className="table-col-v2 t-repo">
+                      <span className="repo-pill">{t.repo || 'internal'}</span>
+                    </div>
+                    <div className="table-col-v2 t-file">
+                      <code className="mono-file">{t.file || 'README.md'}</code>
+                    </div>
+                    <div className="table-col-v2 t-lang">
+                      <div className="lang-pill-v2">
+                        <span>{langInfo?.flag}</span>
+                        <span>{langInfo?.code.toUpperCase()}</span>
+                      </div>
+                    </div>
+                    <div className="table-col-v2 t-volume">
+                      <div className="volume-stats">
+                        <span className="v-orig">{t.original_words || 0}</span>
+                        <span className="v-sep">→</span>
+                        <span className="v-trans">{t.translated_words || 0}</span>
+                      </div>
+                    </div>
+                    <div className="table-col-v2 t-status">
+                      {t.code_blocks_preserved ? (
+                        <span className="status-tag success">Verified</span>
+                      ) : (
+                        <span className="status-tag warning">Partial</span>
+                      )}
+                    </div>
+                    <div className="table-col-v2 t-time">
+                      <span className="time-v2">{formatDate(t.created_at)}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
