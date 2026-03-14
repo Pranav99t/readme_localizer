@@ -7,24 +7,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
 node_modules
-/dist
-/dist-ssr
-/build
-/coverage
-
-# Environment
+dist
+dist-ssr
+*.local
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.sample
-# DO NOT ignore .env.example (it's for documentation)
-!.env.example
 
-# IDE / Editor
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -34,19 +23,3 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
-*.swo
-*.swn
-*.swo
-*.sublime-project
-*.sublime-workspace
-
-# OS / System
-Thumbs.db
-desktop.ini
-
-# Vite
-vite-config.js.timestamp-*
-*.ts.timestamp-*
-
-# Tooling
-.eslintcache
