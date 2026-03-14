@@ -167,407 +167,196 @@ export default function ProjectPage({ navData, onNavigate }) {
   const totalLangBytes = Object.values(languages).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="project-page">
-      {/* Sidebar */}
-      <aside className="project-sidebar">
-        <div className="sidebar-section">
-          <label className="sidebar-label">Repository URL</label>
-          <div className="sidebar-input-row">
-            <input
-              type="text"
-              className="input input-mono"
-              placeholder="github.com/owner/repo"
-              value={repoUrl}
-              onChange={(e) => setRepoUrl(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && analyzeRepo(repoUrl)}
-            />
-            <button
-              className="btn btn-primary btn-icon"
-              onClick={() => analyzeRepo(repoUrl)}
-              disabled={loading}
-              title="Analyze"
-            >
-              {loading ? (
-                <div className="spinner"></div>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 9h10M10 5l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </button>
+    <div className="project-page-v2 animate-fade-in">
+      {/* Project Header Info */}
+      {repoInfo && (
+        <header className="project-top-header">
+          <div className="repo-breadcrumb">
+            <span className="owner">{repoInfo.owner?.login || 'source'}</span>
+            <span className="sep">/</span>
+            <span className="repo">{repoInfo.name}</span>
+            <span className="badge-br badge-primary">{repoInfo.default_branch}</span>
           </div>
-        </div>
-
-        {repoInfo && (
-          <>
-            {/* Repo Info Card */}
-            <div className="sidebar-section">
-              <div className="repo-card animate-fade-in">
-                <div className="repo-card-header">
-                  <div className="repo-avatar">
-                    <img src={repoInfo.owner?.avatar_url} alt="" />
-                  </div>
-                  <div>
-                    <div className="repo-name">{repoInfo.name}</div>
-                    <div className="repo-owner">{repoInfo.owner?.login}</div>
-                  </div>
-                </div>
-                {repoInfo.description && (
-                  <p className="repo-desc">{repoInfo.description}</p>
-                )}
-                <div className="repo-meta">
-                  <span className="repo-meta-item">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                      <path d="M7 1l1.8 3.6L13 5.2 9.95 8.1l.7 4.2L7 10.3 3.35 12.3l.7-4.2L1 5.2l4.2-.6L7 1z" />
-                    </svg>
-                    {repoInfo.stargazers_count?.toLocaleString()}
-                  </span>
-                  <span className="repo-meta-item">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M4 1v4M10 1v4M4 9v4M7 5a3 3 0 013 3v1M7 5a3 3 0 00-3 3v1" strokeLinecap="round" />
-                    </svg>
-                    {repoInfo.forks_count?.toLocaleString()}
-                  </span>
-                  {repoInfo.language && (
-                    <span className="repo-meta-item">
-                      <span className="lang-dot" style={{ background: getLanguageColor(repoInfo.language) }}></span>
-                      {repoInfo.language}
-                    </span>
-                  )}
-                </div>
-              </div>
+          <div className="repo-quick-stats">
+            <div className="q-stat" title="Stars">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              {repoInfo.stargazers_count?.toLocaleString()}
             </div>
+            <div className="q-stat" title="Forks">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 3v12M18 3v12M6 15a3 3 0 100 6 3 3 0 000-6zm12 0a3 3 0 100 6 3 3 0 000-6zm-6-7V4"/></svg>
+              {repoInfo.forks_count?.toLocaleString()}
+            </div>
+          </div>
+        </header>
+      )}
 
-            {/* Language Stats */}
-            {Object.keys(languages).length > 0 && (
-              <div className="sidebar-section animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                <label className="sidebar-label">Languages</label>
-                <div className="lang-bar">
-                  {Object.entries(languages).slice(0, 6).map(([lang, bytes]) => (
-                    <div
-                      key={lang}
-                      className="lang-bar-segment"
-                      style={{
-                        width: `${(bytes / totalLangBytes) * 100}%`,
-                        background: getLanguageColor(lang),
-                      }}
-                      title={`${lang}: ${((bytes / totalLangBytes) * 100).toFixed(1)}%`}
-                    />
-                  ))}
-                </div>
-                <div className="lang-list">
-                  {Object.entries(languages).slice(0, 4).map(([lang, bytes]) => (
-                    <div key={lang} className="lang-list-item">
-                      <span className="lang-dot" style={{ background: getLanguageColor(lang) }}></span>
-                      <span className="lang-name">{lang}</span>
-                      <span className="lang-pct">{((bytes / totalLangBytes) * 100).toFixed(1)}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Files */}
-            {repoStructure && (
-              <div className="sidebar-section animate-fade-in" style={{ animationDelay: '0.15s' }}>
-                <label className="sidebar-label">
-                  Documentation Files
-                  <span className="badge badge-primary" style={{ marginLeft: '8px' }}>
-                    {repoStructure.readmeFiles.length + repoStructure.docFiles.length}
-                  </span>
-                </label>
-                <div className="file-list">
-                  {repoStructure.readmeFiles.map(file => (
-                    <button
-                      key={file}
-                      className={`file-item ${selectedFile === file ? 'active' : ''}`}
-                      onClick={() => handleFileSelect(file)}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M8 1H3a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V5L8 1z" />
-                        <path d="M8 1v4h4" />
-                      </svg>
-                      <span className="file-name">{file}</span>
-                      <span className="badge badge-success" style={{ fontSize: '0.625rem' }}>README</span>
-                    </button>
-                  ))}
-                  {repoStructure.docFiles.slice(0, 8).map(file => (
-                    <button
-                      key={file}
-                      className={`file-item ${selectedFile === file ? 'active' : ''}`}
-                      onClick={() => handleFileSelect(file)}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M8 1H3a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V5L8 1z" />
-                        <path d="M8 1v4h4" />
-                      </svg>
-                      <span className="file-name">{file}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Translation Controls */}
-            <div className="sidebar-section animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <label className="sidebar-label">Target Language</label>
-              <div className="lang-selector">
-                {SUPPORTED_LANGUAGES.map(lang => (
-                  <button
-                    key={lang.code}
-                    className={`lang-option ${selectedLang === lang.code ? 'active' : ''}`}
-                    onClick={() => { setSelectedLang(lang.code); setTranslatedContent(''); setTranslationStats(null); }}
-                    title={`${lang.name} (${lang.nativeName})`}
-                  >
-                    <span className="lang-flag">{lang.flag}</span>
-                    <span className="lang-code">{lang.code.toUpperCase()}</span>
-                  </button>
-                ))}
-              </div>
-
-              <button
-                className="btn btn-primary translate-btn"
-                onClick={handleTranslate}
-                disabled={translating || !readmeContent}
+      <div className="project-layout">
+        {/* Sidebar */}
+        <aside className="project-sidebar-v2">
+          <div className="sidebar-group">
+            <h4 className="sidebar-title">Repository</h4>
+            <div className="sidebar-input-box">
+              <input
+                type="text"
+                className="input-v2"
+                placeholder="Repository URL"
+                value={repoUrl}
+                onChange={(e) => setRepoUrl(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && analyzeRepo(repoUrl)}
+              />
+              <button 
+                className={`analyze-btn-mini ${loading ? 'loading' : ''}`}
+                onClick={() => analyzeRepo(repoUrl)}
+                disabled={loading}
               >
-                {translating ? (
-                  <>
-                    <div className="spinner"></div>
-                    Translating... {translationProgress}%
-                  </>
-                ) : (
-                  <>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <circle cx="9" cy="9" r="7" />
-                      <line x1="1" y1="9" x2="17" y2="9" />
-                      <path d="M9 2a11.5 11.5 0 013 7 11.5 11.5 0 01-3 7 11.5 11.5 0 01-3-7 11.5 11.5 0 013-7z" />
-                    </svg>
-                    Translate to {selectedLangInfo?.name}
-                  </>
-                )}
+                {loading ? '...' : '→'}
               </button>
+            </div>
+          </div>
 
-              {translating && (
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${translationProgress}%` }}></div>
+          {repoInfo && (
+            <>
+              <div className="sidebar-group">
+                <h4 className="sidebar-title">Files</h4>
+                <div className="sidebar-scroll-list">
+                  {repoStructure?.readmeFiles.map(file => (
+                    <button
+                      key={file}
+                      className={`sidebar-file-item ${selectedFile === file ? 'active' : ''}`}
+                      onClick={() => handleFileSelect(file)}
+                    >
+                      <span className="file-icon">📄</span>
+                      <span className="file-name">{file}</span>
+                    </button>
+                  ))}
+                  {repoStructure?.docFiles.slice(0, 10).map(file => (
+                    <button
+                      key={file}
+                      className={`sidebar-file-item ${selectedFile === file ? 'active' : ''}`}
+                      onClick={() => handleFileSelect(file)}
+                    >
+                      <span className="file-icon">📁</span>
+                      <span className="file-name">{file}</span>
+                    </button>
+                  ))}
                 </div>
-              )}
-            </div>
-          </>
-        )}
+              </div>
 
-        {/* Repo Stats */}
-        {repoStructure && (
-          <div className="sidebar-section sidebar-stats animate-fade-in" style={{ animationDelay: '0.25s' }}>
-            <div className="stat-row">
-              <span className="stat-label">Total Files</span>
-              <span className="stat-value">{repoStructure.totalFiles}</span>
-            </div>
-            <div className="stat-row">
-              <span className="stat-label">README Files</span>
-              <span className="stat-value">{repoStructure.readmeFiles.length}</span>
-            </div>
-            <div className="stat-row">
-              <span className="stat-label">Doc Files</span>
-              <span className="stat-value">{repoStructure.docFiles.length}</span>
-            </div>
-            <div className="stat-row">
-              <span className="stat-label">Config Files</span>
-              <span className="stat-value">{repoStructure.configFiles.length}</span>
+              <div className="sidebar-group">
+            <h4 className="sidebar-title">Synthesize Locale</h4>
+            <div className="sidebar-grid-langs">
+              {SUPPORTED_LANGUAGES.map(lang => (
+                <button
+                  key={lang.code}
+                  className={`sidebar-lang-btn ${selectedLang === lang.code ? 'active' : ''}`}
+                  onClick={() => { setSelectedLang(lang.code); setTranslatedContent(''); }}
+                  title={lang.name}
+                >
+                  <span className="flag">{lang.flag}</span>
+                  <div className="lang-info">
+                    <span className="code">{lang.code.toUpperCase()}</span>
+                    <span className="name">{lang.name}</span>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
-        )}
-      </aside>
 
-      {/* Main Content */}
-      <main className="project-main">
-        {error && (
-          <div className="project-error animate-fade-in">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="10" cy="10" r="8" />
-              <path d="M10 6v5M10 14v0" strokeLinecap="round" />
-            </svg>
-            <span>{error}</span>
-            <button className="btn btn-ghost btn-sm" onClick={() => setError('')}>Dismiss</button>
-          </div>
-        )}
+              <div className="sidebar-footer-action">
+                <button
+                  className="btn btn-primary translate-main-btn"
+                  onClick={handleTranslate}
+                  disabled={translating || !readmeContent}
+                >
+                  {translating ? 'Synthesizing...' : `Localize to ${selectedLangInfo?.name}`}
+                </button>
+              </div>
+            </>
+          )}
+        </aside>
 
-        {loading && (
-          <div className="project-loading animate-fade-in">
-            <div className="loading-content">
-              <div className="spinner spinner-lg"></div>
+        {/* Main Content Area */}
+        <main className="project-content-v2">
+          {error && <div className="error-banner">{error}</div>}
+          
+          {loading ? (
+            <div className="loading-state">
+              <div className="pulse-loader"></div>
               <h3>Analyzing Repository</h3>
               <p>{analysisStep}</p>
             </div>
-          </div>
-        )}
-
-        {!loading && !repoInfo && !error && (
-          <div className="project-empty animate-fade-in">
-            <div className="empty-icon">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--text-muted)" strokeWidth="1.5">
-                <rect x="12" y="8" width="40" height="48" rx="4" />
-                <path d="M24 20h16M24 28h12M24 36h14" strokeLinecap="round" />
-                <circle cx="44" cy="44" r="12" fill="var(--bg-primary)" stroke="var(--accent-primary)" strokeWidth="2" />
-                <path d="M41 44l2 2 4-4" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+          ) : !repoInfo ? (
+            <div className="empty-state">
+              <div className="empty-visual">🔍</div>
+              <h2>Bring your documentation to the world</h2>
+              <p>Enter a GitHub repository URL to start the localization process.</p>
             </div>
-            <h2>Enter a Repository URL</h2>
-            <p>Paste a GitHub repository link in the sidebar to analyze its structure and translate documentation.</p>
-          </div>
-        )}
-
-        {!loading && readmeContent && (
-          <>
-            {/* Toolbar */}
-            <div className="content-toolbar">
-              <div className="toolbar-left">
-                <div className="toolbar-file-info">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M9 1H4a1 1 0 00-1 1v12a1 1 0 001 1h8a1 1 0 001-1V5L9 1z" />
-                    <path d="M9 1v4h4" />
-                  </svg>
-                  <span className="toolbar-filename">{selectedFile}</span>
+          ) : (
+            <>
+              <div className="content-toolbar-v2">
+                <div className="toolbar-file-meta">
+                  <span className="file-pill">{selectedFile}</span>
+                  {translationStats && (
+                    <div className="meta-stats">
+                      <span className="stat-pill">{translationStats.originalWords} words</span>
+                      <span className="stat-pill success">Verified Integrity</span>
+                    </div>
+                  )}
                 </div>
-
-                {translationStats && (
-                  <div className="toolbar-stats">
-                    <span className="badge badge-success">
-                      {translationStats.codeBlocksPreserved ? '✓' : '✗'} {translationStats.codeBlockCount} code blocks
-                    </span>
-                    <span className="badge badge-info">
-                      {translationStats.originalWords} → {translationStats.translatedWords} words
-                    </span>
+                
+                <div className="toolbar-actions-v2">
+                  <div className="segmented-control">
+                    <button className={viewMode === 'split' ? 'active' : ''} onClick={() => setViewMode('split')}>Split</button>
+                    <button className={viewMode === 'translated' ? 'active' : ''} onClick={() => setViewMode('translated')} disabled={!translatedContent}>Result</button>
                   </div>
-                )}
+                  
+                  {translatedContent && (
+                    <div className="action-btns">
+                      <button className="btn btn-secondary btn-sm" onClick={handleCopyTranslation}>Copy</button>
+                      <button className="btn btn-primary btn-sm" onClick={handleDownload}>Export</button>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="toolbar-right">
-                <div className="view-toggle">
-                  <button
-                    className={`toggle-btn ${viewMode === 'split' ? 'active' : ''}`}
-                    onClick={() => setViewMode('split')}
-                    title="Split View"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="1" y="2" width="14" height="12" rx="2" />
-                      <line x1="8" y1="2" x2="8" y2="14" />
-                    </svg>
-                  </button>
-                  <button
-                    className={`toggle-btn ${viewMode === 'original' ? 'active' : ''}`}
-                    onClick={() => setViewMode('original')}
-                    title="Original Only"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="2" y="2" width="12" height="12" rx="2" />
-                      <path d="M5 6h6M5 8h4M5 10h5" strokeLinecap="round" />
-                    </svg>
-                  </button>
-                  <button
-                    className={`toggle-btn ${viewMode === 'translated' ? 'active' : ''}`}
-                    onClick={() => setViewMode('translated')}
-                    title="Translated Only"
-                    disabled={!translatedContent}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <circle cx="8" cy="8" r="6" />
-                      <line x1="2" y1="8" x2="14" y2="8" />
-                      <path d="M8 2a9 9 0 012.5 6A9 9 0 018 14a9 9 0 01-2.5-6A9 9 0 018 2z" />
-                    </svg>
-                  </button>
-                </div>
-
-                <button
-                  className={`btn btn-ghost btn-sm ${showRawMarkdown ? 'active' : ''}`}
-                  onClick={() => setShowRawMarkdown(!showRawMarkdown)}
-                >
-                  {showRawMarkdown ? 'Preview' : 'Raw'}
-                </button>
-
-                {translatedContent && (
-                  <>
-                    <button className="btn btn-ghost btn-sm" onClick={handleCopyTranslation} title="Copy translated markdown">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <rect x="4" y="4" width="8" height="8" rx="1.5" />
-                        <path d="M10 4V3a1.5 1.5 0 00-1.5-1.5H3A1.5 1.5 0 001.5 3v5.5A1.5 1.5 0 003 10h1" />
-                      </svg>
-                      Copy
-                    </button>
-                    <button className="btn btn-secondary btn-sm" onClick={handleDownload}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M7 1v9M4 7l3 3 3-3M2 12h10" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      Download
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Content Area */}
-            <div className={`content-panels ${viewMode}`}>
-              {(viewMode === 'split' || viewMode === 'original') && (
-                <div className="content-panel panel-original animate-fade-in">
-                  <div className="panel-header">
-                    <span className="panel-label">
-                      <span className="panel-flag">🇺🇸</span>
-                      Original (English)
-                    </span>
-                    <span className="badge badge-primary">Source</span>
-                  </div>
-                  <div className="panel-body">
-                    {showRawMarkdown ? (
-                      <pre className="raw-markdown">{readmeContent}</pre>
-                    ) : (
+              <div className={`editor-layout ${viewMode}`}>
+                {(viewMode === 'split' || viewMode === 'original') && (
+                  <div className="panel-v2">
+                    <div className="panel-label-v2">SOURCE (EN)</div>
+                    <div className="panel-content-v2">
                       <MarkdownRenderer content={readmeContent} />
-                    )}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {(viewMode === 'split' || viewMode === 'translated') && (
-                <div className="content-panel panel-translated animate-fade-in">
-                  <div className="panel-header">
-                    <span className="panel-label">
-                      <span className="panel-flag">{selectedLangInfo?.flag}</span>
-                      {selectedLangInfo?.name} ({selectedLangInfo?.nativeName})
-                    </span>
-                    {translatedContent && <span className="badge badge-success">Translated</span>}
-                  </div>
-                  <div className="panel-body">
-                    {translating ? (
-                      <div className="panel-translating">
-                        <div className="spinner spinner-lg"></div>
-                        <p>Translating to {selectedLangInfo?.name}...</p>
-                        <div className="progress-bar" style={{ width: '200px' }}>
-                          <div className="progress-fill" style={{ width: `${translationProgress}%` }}></div>
+                )}
+                
+                {(viewMode === 'split' || viewMode === 'translated') && (
+                  <div className="panel-v2 result">
+                    <div className="panel-label-v2">TRANSLATION ({selectedLang.toUpperCase()})</div>
+                    <div className="panel-content-v2">
+                      {translating ? (
+                        <div className="translating-overlay">
+                          <div className="progress-circle">
+                            <div className="inner-loader">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v9h-9"/></svg>
+                            </div>
+                          </div>
+                          <p>Synthesizing localization...</p>
                         </div>
-                        <span className="progress-text">{translationProgress}% complete</span>
-                      </div>
-                    ) : translatedContent ? (
-                      showRawMarkdown ? (
-                        <pre className="raw-markdown">{translatedContent}</pre>
-                      ) : (
+                      ) : translatedContent ? (
                         <MarkdownRenderer content={translatedContent} />
-                      )
-                    ) : (
-                      <div className="panel-empty">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--text-muted)" strokeWidth="1.5">
-                          <circle cx="24" cy="24" r="18" />
-                          <line x1="6" y1="24" x2="42" y2="24" />
-                          <path d="M24 6a27 27 0 017 18 27 27 0 01-7 18 27 27 0 01-7-18A27 27 0 0124 6z" />
-                        </svg>
-                        <p>Select a language and click <strong>Translate</strong> to generate localized content</p>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="panel-empty-state">
+                          <p>Ready to localize. <br/>Click the button in the sidebar to begin.</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </main>
+                )}
+              </div>
+            </>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
