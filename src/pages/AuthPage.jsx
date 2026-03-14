@@ -72,41 +72,36 @@ export default function AuthPage({ onNavigate, navData }) {
                 <path d="M32 30l2 2 3-3" stroke="url(#authGrad2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 <defs>
                   <linearGradient id="authGrad" x1="4" y1="4" x2="44" y2="44">
-                    <stop stopColor="#6366f1" />
-                    <stop offset="1" stopColor="#8b5cf6" />
+                    <stop stopColor="#ff2d55" />
+                    <stop offset="1" stopColor="#ff7e5f" />
                   </linearGradient>
                   <linearGradient id="authGrad2" x1="32" y1="29" x2="37" y2="32">
-                    <stop stopColor="#6366f1" />
-                    <stop offset="1" stopColor="#8b5cf6" />
+                    <stop stopColor="#ff2d55" />
+                    <stop offset="1" stopColor="#ff7e5f" />
                   </linearGradient>
                 </defs>
               </svg>
             </div>
-            <h2>README Localizer</h2>
-            <p>Make your open source projects accessible to developers worldwide with AI-powered documentation translation.</p>
+            <h2>Global Access Starts Here</h2>
+            <p>Join the ecosystem of developers making their technical work understandable to everyone, everywhere.</p>
 
             <div className="auth-features">
               <div className="auth-feature">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent-emerald)" strokeWidth="1.5">
-                  <path d="M3 8l3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>16+ languages supported</span>
+                <span className="dot-v"></span>
+                <span>Native High-Fidelity Localization</span>
               </div>
               <div className="auth-feature">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent-emerald)" strokeWidth="1.5">
-                  <path d="M3 8l3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>Code blocks preserved</span>
+                <span className="dot-v"></span>
+                <span>Developer-First Experience</span>
               </div>
               <div className="auth-feature">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent-emerald)" strokeWidth="1.5">
-                  <path d="M3 8l3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>Translation history saved</span>
+                <span className="dot-v"></span>
+                <span>Persistent History & Sync</span>
               </div>
             </div>
           </div>
         </div>
+
 
         <div className="auth-form-panel">
           <div className="auth-form-header">
