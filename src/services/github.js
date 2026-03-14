@@ -72,10 +72,18 @@ export async function fetchFileContent(owner, repo, path, branch = 'main') {
 
 function decodeContent(data) {
   if (data.encoding === 'base64') {
-    return atob(data.content.replace(/\n/g, ''));
+    // atob decodes to a binary string where each character is a single byte
+    const binaryString = atob(data.content.replace(/\s/g, ''));
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    // Use TextDecoder to correctly interpret the bytes as UTF-8
+    return new TextDecoder().decode(bytes);
   }
   return data.content || '';
 }
+
 
 /**
  * Find README and important files in the repository
