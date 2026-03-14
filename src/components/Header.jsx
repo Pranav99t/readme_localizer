@@ -19,14 +19,15 @@ export default function Header({ onNavigate, currentPage }) {
                 <path d="M19 18l1 1 2-2" stroke="url(#logoGrad2)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                 <defs>
                   <linearGradient id="logoGrad" x1="2" y1="2" x2="26" y2="26">
-                    <stop stopColor="#6366f1" />
-                    <stop offset="1" stopColor="#8b5cf6" />
+                    <stop stopColor="#ff2d55" />
+                    <stop offset="1" stopColor="#ff7e5f" />
                   </linearGradient>
                   <linearGradient id="logoGrad2" x1="19" y1="17" x2="22" y2="19">
-                    <stop stopColor="#6366f1" />
-                    <stop offset="1" stopColor="#8b5cf6" />
+                    <stop stopColor="#ff2d55" />
+                    <stop offset="1" stopColor="#ff7e5f" />
                   </linearGradient>
                 </defs>
+
               </svg>
             </div>
             <span className="logo-text">
@@ -47,14 +48,14 @@ export default function Header({ onNavigate, currentPage }) {
                 className={`nav-link ${currentPage === 'dashboard' ? 'active' : ''}`}
                 onClick={() => onNavigate('dashboard')}
               >
-                Dashboard
+                Console
               </button>
             )}
             <button
               className={`nav-link ${currentPage === 'history' ? 'active' : ''}`}
               onClick={() => onNavigate('history')}
             >
-              History
+              Deployments
             </button>
           </nav>
         </div>
@@ -62,7 +63,7 @@ export default function Header({ onNavigate, currentPage }) {
         <div className="header-right">
           <div className="header-status">
             <div className="pulse-dot"></div>
-            <span className="status-text">Lingo.dev Connected</span>
+            <span className="status-text">Lingo.dev Engine Online</span>
           </div>
 
           {isAuthenticated ? (
@@ -91,21 +92,21 @@ export default function Header({ onNavigate, currentPage }) {
                       <rect x="2" y="9" width="5" height="5" rx="1" />
                       <rect x="9" y="9" width="5" height="5" rx="1" />
                     </svg>
-                    Dashboard
+                    Console
                   </button>
                   <button className="dropdown-item" onClick={() => { onNavigate('history'); setShowMenu(false); }}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <circle cx="8" cy="8" r="6" />
                       <path d="M8 5v3l2 2" strokeLinecap="round" />
                     </svg>
-                    Translation History
+                    Deployments
                   </button>
                   <div className="dropdown-divider"></div>
                   <button className="dropdown-item dropdown-item-danger" onClick={() => { signOut(); setShowMenu(false); onNavigate('landing'); }}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M6 2H4a2 2 0 00-2 2v8a2 2 0 002 2h2M10 11l3-3-3-3M6 8h7" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    Sign Out
+                    Logout
                   </button>
                 </div>
               )}
