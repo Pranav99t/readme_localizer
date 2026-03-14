@@ -97,191 +97,149 @@ export default function LandingPage({ onNavigate }) {
 
   return (
     <div className="landing">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-content">
-          <div className="hero-badge animate-fade-in">
-            <span className="hero-badge-dot"></span>
-            Powered by Lingo.dev SDK & CLI
+      {/* Immersive Hero Section */}
+      <section className="hero-centered">
+        <div className="container">
+          <div className="hero-badge-outer">
+            <div className="hero-badge animate-fade-in">
+              <span className="hero-badge-dot pulse"></span>
+              Lingo.dev Engine v2.4 Live
+            </div>
           </div>
 
-          <h1 className="hero-title animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Make Your Open Source
-            <br />
-            <span className="hero-gradient-text">Globally Accessible</span>
+          <h1 className="hero-title-giant animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            The Global Standard for <br />
+            <span className="hero-gradient-text">Open Source Documentation</span>
           </h1>
 
-          <p className="hero-subtitle animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            AI-powered README localization for GitHub repositories. Translate technical documentation
-            into 16+ languages while perfectly preserving code blocks, commands, and developer intent.
+          <p className="hero-subtitle-large animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            Translate your entire technical ecosystem in seconds. 
+            Native-grade accuracy across 16+ languages with 100% code preservation.
           </p>
 
-          <div className="hero-input-wrapper animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="hero-input-container">
-              <div className="hero-input-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M7 3C4.239 3 2 5.239 2 8s2.239 5 5 5c1.519 0 2.878-.68 3.797-1.75M13 17c2.761 0 5-2.239 5-5s-2.239-5-5-5c-1.519 0-2.878.68-3.797 1.75" strokeLinecap="round" />
+          <div className="hero-main-action animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            <div className="hero-input-group glass-panel">
+              <div className="input-with-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
+                <input
+                  type="text"
+                  placeholder="Paste GitHub Repository URL..."
+                  value={repoUrl}
+                  onChange={(e) => setRepoUrl(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+                />
               </div>
-              <input
-                type="text"
-                className="hero-input"
-                placeholder="https://github.com/owner/repository"
-                value={repoUrl}
-                onChange={(e) => setRepoUrl(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-              />
-              <button className="btn btn-primary hero-btn" onClick={handleAnalyze}>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 9h10M10 5l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+              <button className="btn btn-primary btn-xl" onClick={handleAnalyze}>
+                Localize Now
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                Analyze & Localize
               </button>
             </div>
-            <div className="hero-input-hints">
-              <span>Try:</span>
-              <button className="hint-btn" onClick={() => { setRepoUrl('https://github.com/facebook/react'); }}>facebook/react</button>
-              <button className="hint-btn" onClick={() => { setRepoUrl('https://github.com/vercel/next.js'); }}>vercel/next.js</button>
-              <button className="hint-btn" onClick={() => { setRepoUrl('https://github.com/tailwindlabs/tailwindcss'); }}>tailwindcss</button>
+            
+            <div className="hero-links">
+              <span>Popular:</span>
+              <button onClick={() => setRepoUrl('https://github.com/facebook/react')}>react</button>
+              <button onClick={() => setRepoUrl('https://github.com/vercel/next.js')}>next.js</button>
+              <button onClick={() => setRepoUrl('https://github.com/tailwindlabs/tailwindcss')}>tailwind</button>
             </div>
           </div>
+        </div>
 
-          {/* Stats */}
-          <div className="hero-stats animate-fade-in" style={{ animationDelay: '0.4s' }}>
+        {/* Floating Code Visual */}
+        <div className="hero-visual-floating animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="terminal-window glass-panel">
+            <div className="terminal-bar">
+              <div className="terminal-controls">
+                <span></span><span></span><span></span>
+              </div>
+              <div className="terminal-tab">README.md — Localization</div>
+            </div>
+            <div className="terminal-content">
+              <div className="code-line"><span className="code-p">$</span> <span className="code-c">lingo</span> <span className="code-f">analyze</span> .</div>
+              <div className="code-line info">✓ Deep scanning 42 files...</div>
+              <div className="code-line info">✓ Identifying 12 documentable segments</div>
+              <div className="code-line"><span className="code-p">$</span> <span className="code-c">lingo</span> <span className="code-f">localize</span> <span className="code-v">--target</span>=es,ja,fr</div>
+              <div className="code-line success">✓ Translation complete in 2.4s</div>
+              <div className="code-line info">→ <span className="code-s">100% Code Integrity Verified</span></div>
+              <div className="code-line blink">_</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust / Stats Section */}
+      <section className="stats-strip">
+        <div className="container">
+          <div className="stats-row">
             {stats.map((stat, i) => (
-              <div key={i} className="hero-stat">
-                <div className="hero-stat-value">{stat.value}</div>
-                <div className="hero-stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Hero Visual */}
-        <div className="hero-visual animate-fade-in" style={{ animationDelay: '0.5s' }}>
-          <div className="terminal-preview">
-            <div className="terminal-header">
-              <div className="terminal-dots">
-                <span className="dot dot-red"></span>
-                <span className="dot dot-yellow"></span>
-                <span className="dot dot-green"></span>
-              </div>
-              <span className="terminal-title">README.md → translated</span>
-            </div>
-            <div className="terminal-body">
-              <div className="terminal-line">
-                <span className="t-prompt">$</span>
-                <span className="t-cmd"> npx lingo.dev@latest</span>
-                <span className="t-flag"> i18n</span>
-              </div>
-              <div className="terminal-line t-dim">
-                <span>  ✓ Analyzing repository structure...</span>
-              </div>
-              <div className="terminal-line t-dim">
-                <span>  ✓ Found 3 README files, 2 docs</span>
-              </div>
-              <div className="terminal-line t-dim">
-                <span>  ✓ Extracting translatable segments</span>
-              </div>
-              <div className="terminal-line">
-                <span className="t-success">  ✓ Translated to 5 languages</span>
-              </div>
-              <div className="terminal-line">
-                <span className="t-info">  → Code blocks preserved: 12/12</span>
-              </div>
-              <div className="terminal-line t-blink">
-                <span className="t-prompt">$</span>
-                <span className="t-cursor">▋</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="features-section">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-badge badge badge-primary">Features</span>
-            <h2 className="section-title">Everything You Need for<br />Global Documentation</h2>
-            <p className="section-subtitle">
-              A complete toolkit for open source maintainers to instantly make their repositories accessible worldwide.
-            </p>
-          </div>
-
-          <div className="features-grid">
-            {features.map((feature, i) => (
-              <div key={i} className="feature-card glass-panel animate-fade-in" style={{ animationDelay: `${i * 0.08}s` }}>
-                <div className="feature-icon" style={{ color: feature.color, background: `${feature.color}15` }}>
-                  {feature.icon}
-                </div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-desc">{feature.desc}</p>
+              <div key={i} className="stat-item">
+                <div className="stat-v">{stat.value}</div>
+                <div className="stat-l">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="how-section">
+      {/* Featured Capabilities - Bento Style */}
+      <section className="features-bento">
         <div className="container">
-          <div className="section-header">
-            <span className="section-badge badge badge-info">How It Works</span>
-            <h2 className="section-title">Three Steps to<br />Global Reach</h2>
+          <div className="section-head-centered">
+            <h2 className="title-md">Engineered for Excellence</h2>
+            <p className="subtitle-md">Localization isn't just about translation. It's about preserving developer intent.</p>
           </div>
 
-          <div className="steps-grid">
-            <div className="step-card animate-fade-in">
-              <div className="step-number">01</div>
-              <div className="step-content">
-                <h3>Paste Repository URL</h3>
-                <p>Enter any public GitHub repository link. We'll automatically crawl the structure, find README files, and identify all documentation.</p>
+          <div className="bento-grid">
+            <div className="bento-item bento-main glass-panel">
+              <div className="bento-icon-box" style={{ background: 'var(--accent-primary-rgb)', color: 'white' }}>
+                {features[2].icon}
               </div>
-              <div className="step-visual">
-                <div className="mini-input">
-                  <span className="mini-input-icon">🔗</span>
-                  <span className="mini-input-text">github.com/owner/repo</span>
+              <h3>Superior Code Preservation</h3>
+              <p>Our proprietary parser treats code blocks as sacred. Shell commands, JSON configurations, and complex code snippets remain untouched while text flows around them naturally.</p>
+              <div className="bento-visual">
+                <div className="code-comparison">
+                  <div className="code-side">
+                    <span className="label">Original</span>
+                    <pre><code>npx start{"\n"}# run locally</code></pre>
+                  </div>
+                  <div className="code-arrow">→</div>
+                  <div className="code-side">
+                    <span className="label">Japanese</span>
+                    <pre><code>npx start{"\n"}# ローカルで実行</code></pre>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="step-connector">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <path d="M12 20h16M24 14l6 6-6 6" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+            <div className="bento-item bento-side glass-panel">
+              <div className="bento-icon-box" style={{ color: 'var(--accent-cyan)' }}>
+                {features[1].icon}
+              </div>
+              <h3>16+ Core Locales</h3>
+              <p>Support for major global markets with high-fidelity linguistic models.</p>
             </div>
 
-            <div className="step-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="step-number">02</div>
-              <div className="step-content">
-                <h3>Select Languages</h3>
-                <p>Choose from 16+ target languages. Our AI preserves technical terms, code blocks, and formatting while translating natural language content.</p>
+            <div className="bento-item bento-side glass-panel">
+              <div className="bento-icon-box" style={{ color: 'var(--accent-rose)' }}>
+                {features[0].icon}
               </div>
-              <div className="step-visual">
-                <div className="mini-flags">
-                  <span>🇪🇸</span><span>🇫🇷</span><span>🇩🇪</span><span>🇯🇵</span><span>🇰🇷</span><span>+11</span>
+              <h3>GitHub Native</h3>
+              <p>Deep integration allows for automatic repository crawling and structured analysis.</p>
+            </div>
+
+            <div className="bento-item bento-wide glass-panel">
+              <div className="bento-flex">
+                <div className="bento-text">
+                  <h3>Enterprise Grade SDK</h3>
+                  <p>Built on the Lingo.dev core, providing stability and security for mission-critical documentation.</p>
                 </div>
-              </div>
-            </div>
-
-            <div className="step-connector">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <path d="M12 20h16M24 14l6 6-6 6" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <div className="step-card animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="step-number">03</div>
-              <div className="step-content">
-                <h3>Review & Export</h3>
-                <p>Compare translations side-by-side, verify code preservation, then download or copy the localized README for your repository.</p>
-              </div>
-              <div className="step-visual">
-                <div className="mini-compare">
-                  <span className="mini-panel">EN</span>
-                  <span className="mini-arrow">→</span>
-                  <span className="mini-panel mini-panel-accent">ES</span>
+                <div className="bento-visual-icons">
+                  <div className="tech-badge">SDK</div>
+                  <div className="tech-badge">CLI</div>
+                  <div className="tech-badge">API</div>
                 </div>
               </div>
             </div>
@@ -289,39 +247,50 @@ export default function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="cta-section">
+      {/* CTA Reveal */}
+      <section className="cta-reveal">
         <div className="container">
-          <div className="cta-card glass-panel">
-            <h2>Ready to Go Global?</h2>
-            <p>Start localizing your README in seconds. No configuration needed.</p>
-            <button className="btn btn-primary btn-lg" onClick={() => onNavigate(isAuthenticated ? 'dashboard' : 'auth')}>
-              {isAuthenticated ? 'Go to Dashboard' : 'Get Started Free'}
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 9h10M10 5l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
+          <div className="cta-box-premium">
+            <div className="cta-glow"></div>
+            <h2 className="cta-title">Start Your Global Journey</h2>
+            <p className="cta-desc">Join thousands of developers making their work accessible to everyone.</p>
+            <div className="cta-btns">
+              <button className="btn btn-primary btn-lg" onClick={() => onNavigate(isAuthenticated ? 'dashboard' : 'auth')}>
+                {isAuthenticated ? 'Open Dashboard' : 'Create Free Account'}
+              </button>
+              <button className="btn btn-ghost btn-lg">View Demo</button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="landing-footer">
+      <footer className="footer-premium">
         <div className="container">
-          <div className="footer-inner">
-            <div className="footer-brand">
-              <span className="logo-primary">README</span>
-              <span className="logo-accent">Localizer</span>
+          <div className="footer-top">
+            <div className="footer-brand-large">
+              <div className="logo-f">README</div>
+              <div className="logo-l">Localizer</div>
             </div>
-            <div className="footer-links">
-              <span>Built with</span>
-              <span className="footer-tech">Lingo.dev SDK</span>
-              <span>•</span>
-              <span className="footer-tech">Supabase</span>
-              <span>•</span>
-              <span className="footer-tech">React</span>
+            <div className="footer-nav-groups">
+              <div className="footer-group">
+                <h4>Product</h4>
+                <a href="#">CLI</a>
+                <a href="#">Documentation</a>
+                <a href="#">API</a>
+              </div>
+              <div className="footer-group">
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+              </div>
             </div>
-            <div className="footer-copy">© 2026 Global README Localizer</div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2026 README Localizer. Powered by Lingo.dev Localization Engine.</p>
+            <div className="social-links">
+              {/* Icons here */}
+            </div>
           </div>
         </div>
       </footer>
