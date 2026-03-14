@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 14, 26, 0.85);
+  background: rgba(5, 5, 7, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-secondary);
@@ -84,12 +84,12 @@
 
 .nav-link:hover {
   color: var(--text-primary);
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(255, 45, 85, 0.08);
 }
 
 .nav-link.active {
   color: var(--accent-primary);
-  background: rgba(99, 102, 241, 0.12);
+  background: rgba(255, 45, 85, 0.12);
 }
 
 .nav-link.active::after {
@@ -145,7 +145,7 @@
 
 .user-avatar-btn:hover {
   border-color: var(--border-hover);
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(255, 45, 85, 0.05);
 }
 
 .user-avatar {
@@ -219,7 +219,7 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(255, 45, 85, 0.08);
   color: var(--text-primary);
 }
 
