@@ -6,6 +6,10 @@ import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import ProjectPage from './pages/ProjectPage';
 import HistoryPage from './pages/HistoryPage';
+import AboutPage from './pages/AboutPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import DocumentationPage from './pages/DocumentationPage';
 import Footer from './components/Footer';
 import './App.css';
 
@@ -46,6 +50,14 @@ function AppContent() {
           : <AuthPage onNavigate={handleNavigate} navData={{ returnTo: 'project', ...navData }} />;
       case 'history':
         return <HistoryPage onNavigate={handleNavigate} />;
+      case 'about':
+        return <AboutPage />;
+      case 'privacy':
+        return <PrivacyPage />;
+      case 'terms':
+        return <TermsPage />;
+      case 'documentation':
+        return <DocumentationPage />;
       default:
         return <LandingPage onNavigate={handleNavigate} />;
     }

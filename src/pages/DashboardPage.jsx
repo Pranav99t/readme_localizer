@@ -176,14 +176,25 @@ export default function DashboardPage({ onNavigate }) {
               )}
             </div>
 
-            {/* CLI Mini-Card */}
-            <div className="cli-mini-card glass-panel animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <div className="cli-mini-header">
-                <span className="badge badge-primary">CLI</span>
-                <h4>Quick Integration</h4>
+            {/* System Status Mini-Card */}
+            <div className="system-status-card glass-panel animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <div className="system-status-header">
+                <div className="status-indicator-live pulse-dot"></div>
+                <h4>Lingo.dev Engine</h4>
               </div>
-              <div className="cli-mini-code">
-                <code>npx lingo.dev init</code>
+              <div className="status-details">
+                <div className="status-row">
+                  <span>API Latency</span>
+                  <span className="status-value" style={{color: 'var(--accent-cyan)'}}>42ms</span>
+                </div>
+                <div className="status-row">
+                  <span>Translation Nodes</span>
+                  <span className="status-value">16 Active</span>
+                </div>
+                <div className="status-row">
+                  <span>Queue Depth</span>
+                  <span className="status-value" style={{color: 'var(--accent-emerald)'}}>0 Tasks</span>
+                </div>
               </div>
             </div>
           </section>

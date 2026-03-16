@@ -41,17 +41,15 @@ const Footer = ({ onNavigate }) => {
           <div className="footer-column">
             <h3>Product</h3>
             <ul>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>CLI</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>Documentation</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>API</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('documentation'); }}>Documentation</a></li>
             </ul>
           </div>
           <div className="footer-column">
-            <h3>Company</h3>
+            <h3>Links</h3>
             <ul>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>About</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>Privacy</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('landing'); }}>Terms</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('about'); }}>About</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('privacy'); }}>Privacy</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('terms'); }}>Terms</a></li>
             </ul>
           </div>
         </div>

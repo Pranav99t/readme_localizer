@@ -17,6 +17,7 @@ export default function ProjectPage({ navData, onNavigate }) {
   const [selectedLangs, setSelectedLangs] = useState(['es']);
   const [activeLang, setActiveLang] = useState('es');
   const [translating, setTranslating] = useState(false);
+  const [translatingIndex, setTranslatingIndex] = useState(0);
   const [translationProgress, setTranslationProgress] = useState(0);
   const [translations, setTranslations] = useState({}); // { es: '...', fr: '...' }
   const [translationStats, setTranslationStats] = useState(null);
@@ -96,6 +97,7 @@ export default function ProjectPage({ navData, onNavigate }) {
     if (!readmeContent || translating || selectedLangs.length === 0) return;
     setTranslating(true);
     setTranslationProgress(0);
+    setTranslatingIndex(1);
     
     // Clear old translations for the selected languages
     const newTranslations = { ...translations };
@@ -105,6 +107,7 @@ export default function ProjectPage({ navData, onNavigate }) {
       const totalToTranslate = selectedLangs.length;
 
       for (const langCode of selectedLangs) {
+        setTranslatingIndex(completedCount + 1);
         const result = await translateMarkdown(
           readmeContent,
           langCode,
@@ -305,7 +308,7 @@ export default function ProjectPage({ navData, onNavigate }) {
                   disabled={translating || !readmeContent || selectedLangs.length === 0}
                 >
                   {translating ? (
-                    `Synthesizing (${translationProgress}%)...`
+                    `Synthesizing ${translatingIndex}/${selectedLangs.length}...`
                   ) : (
                     selectedLangs.length > 1 
                       ? `Localize to ${selectedLangs.length} Languages` 
@@ -397,10 +400,7 @@ export default function ProjectPage({ navData, onNavigate }) {
                               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v9h-9"/></svg>
                             </div>
                           </div>
-                          <p>Synthesizing {activeLang.toUpperCase()}...</p>
-                          <div className="mini-progress-bar">
-                            <div className="fill" style={{ width: `${translationProgress}%` }}></div>
-                          </div>
+                          <p>Synthesizing...</p>
                         </div>
                       ) : translations[activeLang] ? (
                         <MarkdownRenderer content={translations[activeLang]} />

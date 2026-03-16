@@ -166,7 +166,7 @@ export default function LandingPage({ onNavigate }) {
 
           <h1 className="hero-title-giant animate-fade-in" style={{ animationDelay: '0.1s' }}>
             The Global Standard for <br />
-            <span className="hero-gradient-text">Open Source Documentation</span>
+            <span className="hero-gradient-text">Software Documentation</span>
           </h1>
 
           <p className="hero-subtitle-large animate-fade-in" style={{ animationDelay: '0.2s' }}>
@@ -290,8 +290,8 @@ export default function LandingPage({ onNavigate }) {
             <div className="bento-item bento-wide glass-panel">
               <div className="bento-flex">
                 <div className="bento-text">
-                  <h3>Enterprise Grade SDK</h3>
-                  <p>Built on the Lingo.dev core, providing stability and security for mission-critical documentation.</p>
+                  <h3>Developer Grade SDK</h3>
+                  <p>Built on the Lingo.dev core, providing stability and performance for your mission-critical documentation.</p>
                 </div>
                 <div className="bento-visual-icons">
                   <div className="tech-badge">SDK</div>
@@ -356,15 +356,15 @@ export default function LandingPage({ onNavigate }) {
               <div className="use-case-item">
                 <div className="uc-icon">🚀</div>
                 <div>
-                  <h4>Open Source Maintainers</h4>
+                  <h4>Project Maintainers</h4>
                   <p>Increase project adoption by welcoming developers from every corner of the globe with native documentation.</p>
                 </div>
               </div>
               <div className="use-case-item">
                 <div className="uc-icon">🏢</div>
                 <div>
-                  <h4>Enterprise Teams</h4>
-                  <p>Scale technical communication across distributed international teams with zero manual translation overhead.</p>
+                  <h4>Development Teams</h4>
+                  <p>Scale technical communication across distributed international contributors with zero manual translation overhead.</p>
                 </div>
               </div>
               <div className="use-case-item">
@@ -376,22 +376,31 @@ export default function LandingPage({ onNavigate }) {
               </div>
             </div>
             <div className="use-cases-visual">
-              <div className="comparison-card glass-panel">
-                <div className="cc-header">
-                  <span>Growth Metrics after Localization</span>
+              <div className="parser-visual glass-panel">
+                <div className="parser-header">
+                  <div className="parser-controls">
+                    <span className="parser-dot dot-red"></span>
+                    <span className="parser-dot dot-yellow"></span>
+                    <span className="parser-dot dot-green"></span>
+                  </div>
+                  <span className="parser-title">AST Analysis Engine Context</span>
                 </div>
-                <div className="cc-body">
-                  <div className="chart-bar-row">
-                    <span>Global Visitors</span>
-                    <div className="bar-bg"><div className="bar-fill" style={{ width: '85%' }}></div></div>
+                <div className="parser-body">
+                  <div className="parser-line">
+                    <span className="parser-token syntax">{'<BlockQuote>'}</span>
+                    <span className="parser-translation shimmer-text">Identifying semantic meaning...</span>
                   </div>
-                  <div className="chart-bar-row">
-                    <span>Avg. Time on Page</span>
-                    <div className="bar-bg"><div className="bar-fill" style={{ width: '60%' }}></div></div>
+                  <div className="parser-line">
+                    <span className="parser-token protected">{'<CodeBlock lang="python">'}</span>
+                    <span className="parser-status protected-status">Locked & Preserved</span>
                   </div>
-                  <div className="chart-bar-row">
-                    <span>Fork Rate</span>
-                    <div className="bar-bg"><div className="bar-fill" style={{ width: '45%' }}></div></div>
+                  <div className="parser-line">
+                    <span className="parser-token syntax">{'<Heading level={2}>'}</span>
+                    <span className="parser-translation success-text">Translate → Spanish (99% certainty)</span>
+                  </div>
+                  <div className="parser-line">
+                    <span className="parser-token protected">{'<img src="..." />'}</span>
+                    <span className="parser-status protected-status">Asset Linked & Intact</span>
                   </div>
                 </div>
               </div>
@@ -418,29 +427,41 @@ export default function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* NEW: Testimonials */}
-      <section className="testimonials">
+      {/* Ecosystem Integration */}
+      <section className="ecosystem-integration">
         <div className="container">
-          <div className="testimonials-grid">
-            <div className="testimonial-card glass-panel">
-              <p>"The code preservation is unbelievable. It kept our complex Docker and Kubernetes configs perfectly intact while translating the surrounding guide to Japanese."</p>
-              <div className="t-author">
-                <div className="t-avatar">JD</div>
-                <div>
-                  <div className="t-name">James Dalton</div>
-                  <div className="t-role">Cloud Architect</div>
-                </div>
+          <div className="section-head-centered">
+            <h2 className="title-md">Universal Framework Support</h2>
+            <p className="subtitle-md">Flawless integration with the most popular modern documentation generators.</p>
+          </div>
+          <div className="ecosystem-grid">
+            <div className="ecosystem-card glass-panel">
+              <div className="eco-header">
+                <h3>Docusaurus</h3>
+                <span className="badge badge-primary">React</span>
               </div>
+              <p>Maintains complex MDX component routing and interactive playground elements seamlessly.</p>
             </div>
-            <div className="testimonial-card glass-panel">
-              <p>"We saw a significant jump in contributions from French and German developers within weeks of localizing our repo with this tool. Highly recommended."</p>
-              <div className="t-author">
-                <div className="t-avatar">AL</div>
-                <div>
-                  <div className="t-name">Anna Lopez</div>
-                  <div className="t-role">OS Maintainer</div>
-                </div>
+            <div className="ecosystem-card glass-panel">
+              <div className="eco-header">
+                <h3>Nextra</h3>
+                <span className="badge badge-info">Next.js</span>
               </div>
+              <p>Preserves Server-Side Generation paths while fully localizing nested content.</p>
+            </div>
+            <div className="ecosystem-card glass-panel">
+              <div className="eco-header">
+                <h3>VitePress</h3>
+                <span className="badge badge-success">Vue</span>
+              </div>
+              <p>Keeps Vue-powered static HTML optimizations completely undisturbed.</p>
+            </div>
+            <div className="ecosystem-card glass-panel">
+              <div className="eco-header">
+                <h3>MkDocs</h3>
+                <span className="badge badge-warning">Python</span>
+              </div>
+              <p>Safeguards YAML configurations and dynamic Material theme structures perfectly.</p>
             </div>
           </div>
         </div>
