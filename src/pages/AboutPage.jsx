@@ -52,6 +52,11 @@ const AboutPage = () => {
               help project maintainers grow their projects by reaching non-English speaking contributors and users 
               across Asia, Europe, Latin America, and beyond.
             </p>
+            <h2>Connect With Us</h2>
+            <p>
+              We're always looking to improve our tool. If you have suggestions, feedback, or 
+              just want to say hi, reach out to us at floats.videodomcreate@gmail.com.
+            </p>
           </div>
         </div>
       </div>

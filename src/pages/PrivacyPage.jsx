@@ -67,7 +67,7 @@ const PrivacyPage = () => {
             <h2>Contact Us</h2>
             <p>
               If you have any questions about this Privacy Policy, please contact us at 
-              support@readmelocalizer.com.
+              floats.videodomcreate@gmail.com.
             </p>
           </div>
         </div>

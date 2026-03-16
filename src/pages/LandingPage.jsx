@@ -91,7 +91,7 @@ export default function LandingPage({ onNavigate }) {
   const stats = [
     { value: '16+', label: 'Languages' },
     { value: '100%', label: 'Code Preserved' },
-    { value: '<30s', label: 'Translation Time' },
+    { value: 'Zero', label: 'Config Required' },
     { value: '∞', label: 'Repositories' },
   ];
 
@@ -165,13 +165,13 @@ export default function LandingPage({ onNavigate }) {
           </div>
 
           <h1 className="hero-title-giant animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            The Global Standard for <br />
-            <span className="hero-gradient-text">Software Documentation</span>
+            The Translation Engine for <br />
+            <span className="hero-gradient-text">GitHub Documentation</span>
           </h1>
 
           <p className="hero-subtitle-large animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Translate your entire technical ecosystem in seconds. 
-            Native-grade accuracy across 16+ languages with 100% code preservation.
+            Transform your technical documentation into a global asset.
+            Native grade accuracy across 16+ languages with 100% preservation of code, tags, and formatting.
           </p>
 
           <div className="hero-main-action animate-fade-in" style={{ animationDelay: '0.3s' }}>
@@ -195,7 +195,7 @@ export default function LandingPage({ onNavigate }) {
                 </svg>
               </button>
             </div>
-            
+
             <div className="hero-links">
               <span>Popular:</span>
               <button onClick={() => setRepoUrl('https://github.com/facebook/react')}>react</button>
@@ -254,18 +254,18 @@ export default function LandingPage({ onNavigate }) {
               <div className="bento-icon-box" style={{ background: 'var(--accent-primary-rgb)', color: 'white' }}>
                 {features[2].icon}
               </div>
-              <h3>Superior Code Preservation</h3>
-              <p>Our proprietary parser treats code blocks as sacred. Shell commands, JSON configurations, and complex code snippets remain untouched while text flows around them naturally.</p>
+              <h3>Full Markdown Integrity</h3>
+              <p>Go beyond simple text. Our engine perfectly preserves markdown hierarchy, interactive badges, complex tables, and technical links while localizing the surrounding context with surgical precision.</p>
               <div className="bento-visual">
                 <div className="code-comparison">
                   <div className="code-side">
                     <span className="label">Original</span>
-                    <pre><code>npx start{"\n"}# run locally</code></pre>
+                    <pre><code>[![](badge.svg)](url){"\n"}## Install Guide</code></pre>
                   </div>
                   <div className="code-arrow">→</div>
                   <div className="code-side">
-                    <span className="label">Japanese</span>
-                    <pre><code>npx start{"\n"}# ローカルで実行</code></pre>
+                    <span className="label">Spanish</span>
+                    <pre><code>[![](badge.svg)](url){"\n"}## Guía de Instalación</code></pre>
                   </div>
                 </div>
               </div>

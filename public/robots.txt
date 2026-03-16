@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://globalreadme.vercel.app/sitemap.xml

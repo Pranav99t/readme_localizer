@@ -92,8 +92,7 @@ const DocumentationPage = () => {
             <div className="doc-card">
               <h3>Can I translate private repos?</h3>
               <p>
-                Yes, if you grant the necessary permissions during the GitHub OAuth process, you can 
-                access and translate documentation in your private repositories.
+                No, but we are planning on this.
               </p>
             </div>
           </div>
