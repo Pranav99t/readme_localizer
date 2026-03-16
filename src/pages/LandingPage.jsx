@@ -95,6 +95,63 @@ export default function LandingPage({ onNavigate }) {
     { value: '∞', label: 'Repositories' },
   ];
 
+  const steps = [
+    {
+      number: '01',
+      title: 'Repository Link',
+      text: 'Simply paste your GitHub repository URL. Our engine supports any public repository and private ones with authorized access.',
+    },
+    {
+      number: '02',
+      title: 'Deep Scan',
+      text: 'Our AI engine scans every file in your project, identifying documentation, READMEs, and text segments that need localization.',
+    },
+    {
+      number: '03',
+      title: 'Context-Aware AI',
+      text: 'We use Lingo.dev\'s advanced LLMs to translate your content while preserving technical context, code blocks, and markdown structure.',
+    },
+    {
+      number: '04',
+      title: 'Deployment',
+      text: 'Download your localized files or push them directly to a new branch in your repository with a single click.',
+    }
+  ];
+
+  const faqs = [
+    {
+      q: 'Is the code preservation really 100%?',
+      a: 'Absolutely. Our proprietary parser is fine-tuned for technical markups. It treats code blocks, inline snippets, and shell commands as sacred tokens, ensuring your technical logic remains functional and correctly formatted in every language.'
+    },
+    {
+      q: 'Which languages do you support?',
+      a: 'We currently support over 16 core languages including Japanese, Mandarin Chinese, Spanish, French, German, Korean, Portuguese, Italian, Russian, and more. We are constantly adding new locales based on developer demand.'
+    },
+    {
+      q: 'Does it work with MONOREPOS?',
+      a: 'Yes! Our deep crawler can navigate complex folder structures. You can specify deep paths to READMEs or let the engine auto-discover documentation across your entire monorepo architecture.'
+    },
+    {
+      q: 'How does it handle Markdown updates?',
+      a: 'If you update your original README, you can re-run the localization. Our engine is smart enough to detect changes and only process the updated segments, saving time and maintaining consistency.'
+    },
+    {
+      q: 'Is there an API or CLI available?',
+      a: 'Built on the Lingo.dev SDK, our engine is fully accessible via CLI for CI/CD integrations. You can automate your documentation localization as part of your deployment pipeline.'
+    }
+  ];
+
+  const languages = [
+    { name: 'Japanese', code: 'JA', native: '日本語' },
+    { name: 'Spanish', code: 'ES', native: 'Español' },
+    { name: 'French', code: 'FR', native: 'Français' },
+    { name: 'German', code: 'DE', native: 'Deutsch' },
+    { name: 'Chinese', code: 'ZH', native: '中文' },
+    { name: 'Korean', code: 'KO', native: '한국어' },
+    { name: 'Portuguese', code: 'PT', native: 'Português' },
+    { name: 'Italian', code: 'IT', native: 'Italiano' },
+  ];
+
   return (
     <div className="landing">
       {/* Immersive Hero Section */}
@@ -240,6 +297,148 @@ export default function LandingPage({ onNavigate }) {
                   <div className="tech-badge">SDK</div>
                   <div className="tech-badge">CLI</div>
                   <div className="tech-badge">API</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: How it Works Section */}
+      <section className="how-it-works">
+        <div className="container">
+          <div className="section-head-centered">
+            <h2 className="title-md">How it actually works</h2>
+            <p className="subtitle-md">Four simple steps to take your documentation global.</p>
+          </div>
+          <div className="steps-grid">
+            {steps.map((step, i) => (
+              <div key={i} className="step-card glass-panel">
+                <div className="step-number">{step.number}</div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Languages Grid */}
+      <section className="languages-section">
+        <div className="container">
+          <div className="section-head-centered">
+            <h2 className="title-md">Global Coverage</h2>
+            <p className="subtitle-md">Support for the world's most spoken developer languages.</p>
+          </div>
+          <div className="languages-grid">
+            {languages.map((lang, i) => (
+              <div key={i} className="lang-pill glass-panel">
+                <span className="lang-code">{lang.code}</span>
+                <div className="lang-info">
+                  <div className="lang-name">{lang.name}</div>
+                  <div className="lang-native">{lang.native}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="languages-more">
+            And 8+ more languages including Russian, Hindi, Arabic, and Dutch.
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Use Cases Section */}
+      <section className="use-cases">
+        <div className="container">
+          <div className="use-cases-layout">
+            <div className="use-cases-text">
+              <h2 className="title-md">Tailored for your ecosystem</h2>
+              <div className="use-case-item">
+                <div className="uc-icon">🚀</div>
+                <div>
+                  <h4>Open Source Maintainers</h4>
+                  <p>Increase project adoption by welcoming developers from every corner of the globe with native documentation.</p>
+                </div>
+              </div>
+              <div className="use-case-item">
+                <div className="uc-icon">🏢</div>
+                <div>
+                  <h4>Enterprise Teams</h4>
+                  <p>Scale technical communication across distributed international teams with zero manual translation overhead.</p>
+                </div>
+              </div>
+              <div className="use-case-item">
+                <div className="uc-icon">📚</div>
+                <div>
+                  <h4>Technical Writers</h4>
+                  <p>Focus on high-quality content creation while letting AI handle the repetitive task of multi-language localization.</p>
+                </div>
+              </div>
+            </div>
+            <div className="use-cases-visual">
+              <div className="comparison-card glass-panel">
+                <div className="cc-header">
+                  <span>Growth Metrics after Localization</span>
+                </div>
+                <div className="cc-body">
+                  <div className="chart-bar-row">
+                    <span>Global Visitors</span>
+                    <div className="bar-bg"><div className="bar-fill" style={{ width: '85%' }}></div></div>
+                  </div>
+                  <div className="chart-bar-row">
+                    <span>Avg. Time on Page</span>
+                    <div className="bar-bg"><div className="bar-fill" style={{ width: '60%' }}></div></div>
+                  </div>
+                  <div className="chart-bar-row">
+                    <span>Fork Rate</span>
+                    <div className="bar-bg"><div className="bar-fill" style={{ width: '45%' }}></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: FAQ Section */}
+      <section className="faq-section">
+        <div className="container">
+          <div className="section-head-centered">
+            <h2 className="title-md">Frequently Asked Questions</h2>
+            <p className="subtitle-md">Everything you need to know about Global README Localizer.</p>
+          </div>
+          <div className="faq-grid">
+            {faqs.map((faq, i) => (
+              <div key={i} className="faq-item glass-panel">
+                <h4>{faq.q}</h4>
+                <p>{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Testimonials */}
+      <section className="testimonials">
+        <div className="container">
+          <div className="testimonials-grid">
+            <div className="testimonial-card glass-panel">
+              <p>"The code preservation is unbelievable. It kept our complex Docker and Kubernetes configs perfectly intact while translating the surrounding guide to Japanese."</p>
+              <div className="t-author">
+                <div className="t-avatar">JD</div>
+                <div>
+                  <div className="t-name">James Dalton</div>
+                  <div className="t-role">Cloud Architect</div>
+                </div>
+              </div>
+            </div>
+            <div className="testimonial-card glass-panel">
+              <p>"We saw a significant jump in contributions from French and German developers within weeks of localizing our repo with this tool. Highly recommended."</p>
+              <div className="t-author">
+                <div className="t-avatar">AL</div>
+                <div>
+                  <div className="t-name">Anna Lopez</div>
+                  <div className="t-role">OS Maintainer</div>
                 </div>
               </div>
             </div>
