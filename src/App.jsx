@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
 import LandingPage from './pages/LandingPage';
@@ -18,6 +18,16 @@ function AppContent() {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_title: currentPage.charAt(0).toUpperCase() + currentPage.slice(1),
+        page_location: window.location.href,
+        page_path: `/${currentPage}`
+      });
+    }
+  }, [currentPage]);
 
   const renderPage = () => {
     switch (currentPage) {
