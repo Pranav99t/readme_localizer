@@ -1,7 +1,5 @@
 # 🌐 Global README Localizer (GRL)
 
-![GRL Hero Banner](C:\Users\prana\.gemini\antigravity\brain\f2fc3e06-d796-4bd5-979c-dc2ad2e34dce\grl_hero_banner_1773672911268.png)
-
 <div align="center">
 
 > **Effortlessly translate your GitHub documentation into 15+ languages while maintaining 100% technical integrity.**
@@ -65,7 +63,7 @@
 graph TD
     A[Fetch GitHub README] --> B[Custom Segmentation Engine]
     B --> C{Technical Entities?}
-    C -- Yes --> D[Placeholder Protection (Unicode Masking)]
+    C -- Yes --> D["Placeholder Protection (Unicode Masking)"]
     C -- No --> E[Lingo.dev API Call]
     D --> E
     E --> F[Localization Processing]
