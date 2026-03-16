@@ -14,10 +14,11 @@ export default function ProjectPage({ navData, onNavigate }) {
   const [languages, setLanguages] = useState({});
   const [readmeContent, setReadmeContent] = useState('');
   const [selectedFile, setSelectedFile] = useState('');
-  const [selectedLang, setSelectedLang] = useState('es');
+  const [selectedLangs, setSelectedLangs] = useState(['es']);
+  const [activeLang, setActiveLang] = useState('es');
   const [translating, setTranslating] = useState(false);
   const [translationProgress, setTranslationProgress] = useState(0);
-  const [translatedContent, setTranslatedContent] = useState('');
+  const [translations, setTranslations] = useState({}); // { es: '...', fr: '...' }
   const [translationStats, setTranslationStats] = useState(null);
   const [viewMode, setViewMode] = useState('split'); // split, original, translated
   const [showRawMarkdown, setShowRawMarkdown] = useState(false);
@@ -27,7 +28,7 @@ export default function ProjectPage({ navData, onNavigate }) {
     if (!url) return;
     setLoading(true);
     setError('');
-    setTranslatedContent('');
+    setTranslations({});
     setTranslationStats(null);
 
     try {
@@ -92,36 +93,59 @@ export default function ProjectPage({ navData, onNavigate }) {
   }, [navData?.repoUrl, analyzeRepo]);
 
   const handleTranslate = async () => {
-    if (!readmeContent || translating) return;
+    if (!readmeContent || translating || selectedLangs.length === 0) return;
     setTranslating(true);
     setTranslationProgress(0);
-    setTranslatedContent('');
-
+    
+    // Clear old translations for the selected languages
+    const newTranslations = { ...translations };
+    
     try {
-      const result = await translateMarkdown(
-        readmeContent,
-        selectedLang,
-        'en',
-        (progress) => setTranslationProgress(progress)
-      );
-      setTranslatedContent(result);
+      let completedCount = 0;
+      const totalToTranslate = selectedLangs.length;
 
-      const stats = getTranslationStats(readmeContent, result);
-      setTranslationStats(stats);
+      for (const langCode of selectedLangs) {
+        const result = await translateMarkdown(
+          readmeContent,
+          langCode,
+          'en',
+          (progress) => {
+            const overallProgress = ((completedCount / totalToTranslate) * 100) + (progress / totalToTranslate);
+            setTranslationProgress(Math.round(overallProgress));
+          }
+        );
+        
+        newTranslations[langCode] = result;
+        setTranslations({ ...newTranslations });
+        
+        // If this is the first successfully translated language and activeLang is not in selectedLangs, 
+        // or if it's the first one we're doing, set it as active
+        if (completedCount === 0 || !selectedLangs.includes(activeLang)) {
+          setActiveLang(langCode);
+        }
 
-      // Save to translation history
-      const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === selectedLang);
-      localDB.saveTranslation({
-        id: crypto.randomUUID(),
-        repo: repoInfo?.full_name || 'unknown',
-        file: selectedFile,
-        source_lang: 'en',
-        target_lang: selectedLang,
-        target_lang_name: langInfo?.name || selectedLang,
-        original_words: stats.originalWords,
-        translated_words: stats.translatedWords,
-        code_blocks_preserved: stats.codeBlocksPreserved,
-      });
+        const stats = getTranslationStats(readmeContent, result);
+        
+        // Save to translation history
+        const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === langCode);
+        localDB.saveTranslation({
+          id: crypto.randomUUID(),
+          repo: repoInfo?.full_name || 'unknown',
+          file: selectedFile,
+          source_lang: 'en',
+          target_lang: langCode,
+          target_lang_name: langInfo?.name || langCode,
+          original_words: stats.originalWords,
+          translated_words: stats.translatedWords,
+          code_blocks_preserved: stats.codeBlocksPreserved,
+        });
+
+        completedCount++;
+        setTranslationProgress(Math.round((completedCount / totalToTranslate) * 100));
+        
+        // Set stats for the last translated one for display
+        setTranslationStats(stats);
+      }
     } catch (err) {
       setError(`Translation failed: ${err.message}`);
     } finally {
@@ -129,10 +153,21 @@ export default function ProjectPage({ navData, onNavigate }) {
     }
   };
 
+  const toggleLanguage = (langCode) => {
+    setSelectedLangs(prev => {
+      if (prev.includes(langCode)) {
+        if (prev.length === 1) return prev; // Keep at least one
+        return prev.filter(c => c !== langCode);
+      } else {
+        return [...prev, langCode];
+      }
+    });
+  };
+
   const handleFileSelect = async (filePath) => {
     if (!repoInfo) return;
     setSelectedFile(filePath);
-    setTranslatedContent('');
+    setTranslations({});
     setTranslationStats(null);
     setLoading(true);
 
@@ -148,13 +183,16 @@ export default function ProjectPage({ navData, onNavigate }) {
   };
 
   const handleCopyTranslation = () => {
-    navigator.clipboard.writeText(translatedContent);
+    const content = translations[activeLang];
+    if (content) navigator.clipboard.writeText(content);
   };
 
   const handleDownload = () => {
-    const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === selectedLang);
-    const fileName = `README.${selectedLang}.md`;
-    const blob = new Blob([translatedContent], { type: 'text/markdown' });
+    const content = translations[activeLang];
+    if (!content) return;
+    const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === activeLang);
+    const fileName = `README.${activeLang}.md`;
+    const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -163,8 +201,6 @@ export default function ProjectPage({ navData, onNavigate }) {
     URL.revokeObjectURL(url);
   };
 
-  const selectedLangInfo = SUPPORTED_LANGUAGES.find(l => l.code === selectedLang);
-  const totalLangBytes = Object.values(languages).reduce((a, b) => a + b, 0);
 
   return (
     <div className="project-page-v2 animate-fade-in">
@@ -248,8 +284,8 @@ export default function ProjectPage({ navData, onNavigate }) {
               {SUPPORTED_LANGUAGES.map(lang => (
                 <button
                   key={lang.code}
-                  className={`sidebar-lang-btn ${selectedLang === lang.code ? 'active' : ''}`}
-                  onClick={() => { setSelectedLang(lang.code); setTranslatedContent(''); }}
+                  className={`sidebar-lang-btn ${selectedLangs.includes(lang.code) ? 'active' : ''}`}
+                  onClick={() => toggleLanguage(lang.code)}
                   title={lang.name}
                 >
                   <span className="flag">{lang.flag}</span>
@@ -266,9 +302,15 @@ export default function ProjectPage({ navData, onNavigate }) {
                 <button
                   className="btn btn-primary translate-main-btn"
                   onClick={handleTranslate}
-                  disabled={translating || !readmeContent}
+                  disabled={translating || !readmeContent || selectedLangs.length === 0}
                 >
-                  {translating ? 'Synthesizing...' : `Localize to ${selectedLangInfo?.name}`}
+                  {translating ? (
+                    `Synthesizing (${translationProgress}%)...`
+                  ) : (
+                    selectedLangs.length > 1 
+                      ? `Localize to ${selectedLangs.length} Languages` 
+                      : `Localize to ${SUPPORTED_LANGUAGES.find(l => l.code === selectedLangs[0])?.name}`
+                  )}
                 </button>
               </div>
             </>
@@ -307,10 +349,10 @@ export default function ProjectPage({ navData, onNavigate }) {
                 <div className="toolbar-actions-v2">
                   <div className="segmented-control">
                     <button className={viewMode === 'split' ? 'active' : ''} onClick={() => setViewMode('split')}>Split</button>
-                    <button className={viewMode === 'translated' ? 'active' : ''} onClick={() => setViewMode('translated')} disabled={!translatedContent}>Result</button>
+                    <button className={viewMode === 'translated' ? 'active' : ''} onClick={() => setViewMode('translated')} disabled={Object.keys(translations).length === 0}>Result</button>
                   </div>
                   
-                  {translatedContent && (
+                  {Object.keys(translations).length > 0 && (
                     <div className="action-btns">
                       <button className="btn btn-secondary btn-sm" onClick={handleCopyTranslation}>Copy</button>
                       <button className="btn btn-primary btn-sm" onClick={handleDownload}>Export</button>
@@ -331,19 +373,37 @@ export default function ProjectPage({ navData, onNavigate }) {
                 
                 {(viewMode === 'split' || viewMode === 'translated') && (
                   <div className="panel-v2 result">
-                    <div className="panel-label-v2">TRANSLATION ({selectedLang.toUpperCase()})</div>
+                    <div className="panel-label-v2">
+                      TRANSLATION ({activeLang.toUpperCase()})
+                      {Object.keys(translations).length > 1 && (
+                        <select 
+                          className="lang-switcher-inline"
+                          value={activeLang}
+                          onChange={(e) => setActiveLang(e.target.value)}
+                        >
+                          {selectedLangs.filter(code => translations[code]).map(code => (
+                            <option key={code} value={code}>
+                              {SUPPORTED_LANGUAGES.find(l => l.code === code)?.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                     <div className="panel-content-v2">
-                      {translating ? (
+                      {translating && !translations[activeLang] ? (
                         <div className="translating-overlay">
                           <div className="progress-circle">
                             <div className="inner-loader">
                               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v9h-9"/></svg>
                             </div>
                           </div>
-                          <p>Synthesizing localization...</p>
+                          <p>Synthesizing {activeLang.toUpperCase()}...</p>
+                          <div className="mini-progress-bar">
+                            <div className="fill" style={{ width: `${translationProgress}%` }}></div>
+                          </div>
                         </div>
-                      ) : translatedContent ? (
-                        <MarkdownRenderer content={translatedContent} />
+                      ) : translations[activeLang] ? (
+                        <MarkdownRenderer content={translations[activeLang]} />
                       ) : (
                         <div className="panel-empty-state">
                           <p>Ready to localize. <br/>Click the button in the sidebar to begin.</p>
