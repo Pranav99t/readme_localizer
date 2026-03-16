@@ -463,36 +463,6 @@ export default function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      <footer className="footer-premium">
-        <div className="container">
-          <div className="footer-top">
-            <div className="footer-brand-large">
-              <div className="logo-f">README</div>
-              <div className="logo-l">Localizer</div>
-            </div>
-            <div className="footer-nav-groups">
-              <div className="footer-group">
-                <h4>Product</h4>
-                <a href="#">CLI</a>
-                <a href="#">Documentation</a>
-                <a href="#">API</a>
-              </div>
-              <div className="footer-group">
-                <h4>Company</h4>
-                <a href="#">About</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-              </div>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>© 2026 README Localizer. Powered by Lingo.dev Localization Engine.</p>
-            <div className="social-links">
-              {/* Icons here */}
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

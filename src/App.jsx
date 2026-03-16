@@ -6,6 +6,7 @@ import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import ProjectPage from './pages/ProjectPage';
 import HistoryPage from './pages/HistoryPage';
+import Footer from './components/Footer';
 import './App.css';
 
 function AppContent() {
@@ -58,6 +59,7 @@ function AppContent() {
       <main className="app-main">
         {renderPage()}
       </main>
+      <Footer onNavigate={handleNavigate} />
     </>
   );
 }
