@@ -5,11 +5,8 @@
 //   Body: { sourceLocale, targetLocale, data: { text: "..." }, params: { fast: false } }
 //   Response: { data: { text: "translated" } }
 
-// API key loaded from .env file (VITE_ prefix exposes it to client via Vite)
-const LINGO_API_KEY = import.meta.env.VITE_LINGO_API_KEY;
-
-// In dev mode we use Vite proxy at /api/lingo → https://api.lingo.dev
-// In production you'd set this to your backend proxy URL
+// API key is now handled server-side in Vercel functions to keep it private
+// The API base points to our Vercel serverless function
 const LINGO_API_BASE = '/api/lingo';
 
 /**
@@ -173,21 +170,15 @@ async function callLingoAPI(text, targetLocale, sourceLocale = 'en') {
   const url = `${LINGO_API_BASE}/process/localize`;
 
   const body = {
+    text: text,
+    target: targetLocale,
     sourceLocale: sourceLocale,
-    targetLocale: targetLocale,
-    data: {
-      text: text,
-    },
-    params: {
-      fast: false,
-    },
   };
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'X-API-Key': LINGO_API_KEY,
     },
     body: JSON.stringify(body),
   });
@@ -241,7 +232,6 @@ async function callLingoAPIBatch(segments, targetLocale, sourceLocale = 'en') {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'X-API-Key': LINGO_API_KEY,
     },
     body: JSON.stringify(body),
   });
