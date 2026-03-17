@@ -10,7 +10,6 @@
 [![Lingo.dev](https://img.shields.io/badge/AI-Lingo.dev-FF4B4B?style=for-the-badge)](https://lingo.dev/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[**Explore Demo**](https://your-demo-link.com) | [**View Roadmap**](#-roadmap) | [**Report Bug**](https://github.com/Pranav99t/readme_localizer/issues)
 
 </div>
 
