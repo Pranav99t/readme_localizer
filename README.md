@@ -140,5 +140,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <div align="center">
 Built with ❤️ for a borderless Open Source World.<br>
-<b>GRL Team • Hackathon 2024</b>
+<b>GRL Team • Hackathon 2026</b>
 </div>
